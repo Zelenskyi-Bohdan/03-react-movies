@@ -8,7 +8,7 @@ interface MovieResponse {
   total_results: number;
 }
 
-export const fetchMovie = async (
+export const fetchMovies = async (
   request: string
 ): Promise<Movie[]> => {
   const response = await axios.get<MovieResponse>(

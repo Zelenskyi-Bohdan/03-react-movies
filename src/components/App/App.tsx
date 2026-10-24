@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchMovie } from '../../services/movieService.ts';
+import { fetchMovies } from '../../services/movieService.ts';
 import type { Movie } from '../../types/movie.ts';
 import SearchBar from '../SearchBar/SearchBar.tsx';
 import MovieGrid from '../MovieGrid/MovieGrid.tsx';
@@ -14,15 +14,15 @@ function App() {
     const [isError, setIsError] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-    const handleSearch = async (query: string) => {
+    const handleSubmit = async (query: string) => {
         setIsLoading(true);
         setIsError(false);
         setSelectedMovie(null);
 
 
         try {
-            const moviesData = await fetchMovie(query);
-            
+            const moviesData = await fetchMovies(query);
+
             if (moviesData.length === 0) {
                 toast.error('No movies found for your request.');
             }
@@ -37,7 +37,7 @@ function App() {
 
     return (
         <>
-            <SearchBar onSearch={handleSearch} />
+            <SearchBar onSubmit={handleSubmit} />
             {isError ?
                 <ErrorMessage /> :
                 <MovieGrid movies={movies} onSelect={setSelectedMovie} />
